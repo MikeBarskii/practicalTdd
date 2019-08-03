@@ -1,5 +1,6 @@
 package com.epam.mbarskii.isbntools;
 
+import org.junit.Before;
 import org.junit.Test;
 
 import static junit.framework.TestCase.assertEquals;
@@ -7,23 +8,27 @@ import static org.mockito.Mockito.*;
 
 public class StockManagementTest {
 
-    @Test
-    public void testCanGetACorrectLocatorCode() {
-        ExternalISBNDataService testWebService = new ExternalISBNDataService() {
-            public Book lookup(String isbn) {
-                return new Book(isbn, "Of Mice And Men", "J. Steinbeck");
-            }
-        };
+    private ExternalISBNDataService testWebService;
+    private ExternalISBNDataService testDatabaseService;
+    private StockManager stockManager;
 
-        ExternalISBNDataService testDatabaseService = new ExternalISBNDataService() {
-            public Book lookup(String isbn) {
-                return null;
-            }
-        };
+    @Before
+    public void setup() {
+        System.out.println("Setup running");
+        testWebService = mock(ExternalISBNDataService.class);
+        testDatabaseService = mock(ExternalISBNDataService.class);
 
-        StockManager stockManager = new StockManager();
+        stockManager = new StockManager();
         stockManager.setWebService(testWebService);
         stockManager.setDatabaseService(testDatabaseService);
+    }
+
+    @Test
+    public void testCanGetACorrectLocatorCode() {
+        when(testWebService.lookup(anyString())).thenReturn(
+                new Book("0140177396", "Of Mice And Men", "J. Steinbeck"));
+
+        when(testDatabaseService.lookup(anyString())).thenReturn(null);
 
         String isbn = "0140177396";
         String locatorCode = stockManager.getLocatorCode(isbn);
@@ -32,42 +37,28 @@ public class StockManagementTest {
 
     @Test
     public void databaseIsUsedIfDataIsPresent() {
-        ExternalISBNDataService databaseService = mock(ExternalISBNDataService.class);
-        ExternalISBNDataService webService = mock(ExternalISBNDataService.class);
-
-        when(databaseService.lookup("0140177396")).thenReturn(
+        when(testDatabaseService.lookup("0140177396")).thenReturn(
                 new Book("0140177396", "ABC", "ABC")
         );
 
-        StockManager stockManager = new StockManager();
-        stockManager.setWebService(webService);
-        stockManager.setDatabaseService(databaseService);
-
         String isbn = "0140177396";
         String locatorCode = stockManager.getLocatorCode(isbn);
-        verify(databaseService).lookup("0140177396");
-        verify(webService, never()).lookup(anyString());
+
+        verify(testDatabaseService).lookup("0140177396");
+        verify(testWebService, never()).lookup(anyString());
     }
 
     @Test
     public void webServiceIsUsedIfDataIsNotPresentInDatabase() {
-        ExternalISBNDataService databaseService = mock(ExternalISBNDataService.class);
-        ExternalISBNDataService webService = mock(ExternalISBNDataService.class);
-
-        when(databaseService.lookup("0140177396")).thenReturn(null);
-
-        when(webService.lookup("0140177396")).thenReturn(
+        when(testDatabaseService.lookup("0140177396")).thenReturn(null);
+        when(testWebService.lookup("0140177396")).thenReturn(
                 new Book("0140177396", "ABC", "ABC")
         );
-
-        StockManager stockManager = new StockManager();
-        stockManager.setWebService(webService);
-        stockManager.setDatabaseService(databaseService);
 
         String isbn = "0140177396";
         String locatorCode = stockManager.getLocatorCode(isbn);
 
-        verify(databaseService).lookup("0140177396");
-        verify(webService).lookup("0140177396");
+        verify(testDatabaseService).lookup("0140177396");
+        verify(testWebService).lookup("0140177396");
     }
 }
