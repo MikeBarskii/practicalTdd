@@ -1,4 +1,4 @@
-package com.epam.mbarskii.loans;
+package com.epam.mbarskii.practiceTdd.loans;
 
 import org.springframework.web.client.RestTemplate;
 

@@ -1,4 +1,4 @@
-package com.epam.mbarskii.isbntools;
+package com.epam.mbarskii.practiceTdd.isbntools;
 
 import org.junit.Test;
 

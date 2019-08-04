@@ -1,25 +1,25 @@
-package com.epam.mbarskii.isbntools;
+package com.epam.mbarskii.practiceTdd.isbntools;
 
 public class Book {
     private String isbn;
     private String title;
     private String author;
 
-    public Book(String isbn, String title, String author) {
+    Book(String isbn, String title, String author) {
         this.isbn = isbn;
         this.title = title;
         this.author = author;
     }
 
-    public String getIsbn() {
+    String getIsbn() {
         return isbn;
     }
 
-    public String getTitle() {
+    String getTitle() {
         return title;
     }
 
-    public String getAuthor() {
+    String getAuthor() {
         return author;
     }
 }

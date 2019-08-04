@@ -1,4 +1,4 @@
-package com.epam.mbarskii.loans;
+package com.epam.mbarskii.practiceTdd.loans;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

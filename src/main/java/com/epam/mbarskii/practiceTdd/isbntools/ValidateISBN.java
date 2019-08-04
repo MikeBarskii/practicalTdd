@@ -1,4 +1,4 @@
-package com.epam.mbarskii.isbntools;
+package com.epam.mbarskii.practiceTdd.isbntools;
 
 class ValidateISBN {
     private static final int SHORT_ISBN_LENGTH = 10;
