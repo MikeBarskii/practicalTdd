@@ -1,7 +1,5 @@
 package com.epam.mbarskii.calculator;
 
-import com.epam.mbarskii.practiceTdd.calculator.Calculator;
-import com.epam.mbarskii.practiceTdd.calculator.SimpleCalculator;
 import org.junit.Before;
 import org.junit.Test;
 

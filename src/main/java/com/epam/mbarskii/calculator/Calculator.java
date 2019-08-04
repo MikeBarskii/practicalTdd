@@ -1,4 +1,4 @@
-package com.epam.mbarskii.practiceTdd.calculator;
+package com.epam.mbarskii.calculator;
 
 import java.math.BigDecimal;
 
