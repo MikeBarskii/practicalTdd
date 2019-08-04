@@ -1,13 +1,15 @@
 package com.epam.mbarskii.practiceTdd.calculator;
 
+import java.math.BigDecimal;
+
 public interface Calculator {
 
-    double sum(double x, double y);
+    BigDecimal sum(BigDecimal x, BigDecimal y);
 
-    double subtract(double x, double y);
+    BigDecimal subtract(BigDecimal x, BigDecimal y);
 
-    double divide(double x, double y);
+    BigDecimal divide(BigDecimal x, BigDecimal y);
 
-    double multiply(double x, double y);
+    BigDecimal multiply(BigDecimal x, BigDecimal y);
 
 }
