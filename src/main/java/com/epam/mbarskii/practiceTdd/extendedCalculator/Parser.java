@@ -2,5 +2,5 @@ package com.epam.mbarskii.practiceTdd.extendedCalculator;
 
 public interface Parser {
 
-    String takeNextItem(String line);
+    String takeNextItem();
 }
