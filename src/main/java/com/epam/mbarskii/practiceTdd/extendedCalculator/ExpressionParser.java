@@ -4,9 +4,7 @@ public class ExpressionParser implements Parser {
 
     private final String expression;
 
-    private String currentItem = "";
     private int carriagePosition = 0;
-
 
     public ExpressionParser(String expression) {
         this.expression = expression;
@@ -17,32 +15,34 @@ public class ExpressionParser implements Parser {
 
     @Override
     public String takeNextItem() {
-        char currentValue = expression.charAt(carriagePosition++);
-        char nextValue = expression.charAt(carriagePosition);
+        char currentChar = getCurrentChar();
+        carriagePosition++;
+        char nextChar = getCurrentChar();
 
-        boolean isCurrentValueDigit = Character.isDigit(currentValue);
-        boolean isNextValueDigit = Character.isDigit(nextValue);
-        if (!isCurrentValueDigit && !isNextValueDigit)
+        if (isCharsNonDigit(currentChar, nextChar))
             throw new ArithmeticException("You've set invalid expression");
 
         StringBuilder result = new StringBuilder();
-        result.append(currentValue);
+        result.append(currentChar);
         while (carriagePosition <= expression.length() - 1
-                && isCurrentValueDigit
-                && isNextValueDigit) {
-            result.append(nextValue);
+                && isCharsDigit(currentChar, nextChar)) {
+            result.append(nextChar);
             carriagePosition++;
         }
 
         return result.toString();
     }
 
-    private boolean isValuesDigit(char... values) {
-        for (char value: values) {
-            if (!Character.isDigit(value))
-                return false;
-        }
-        return true;
+    private boolean isCharsNonDigit(char x, char y) {
+        return !Character.isDigit(x) && !Character.isDigit(y);
+    }
+
+    private boolean isCharsDigit(char x, char y) {
+        return Character.isDigit(x) && Character.isDigit(y);
+    }
+
+    private char getCurrentChar() {
+        return expression.charAt(carriagePosition);
     }
 
     private boolean isExpressionStartAndEndCorrectly() {
